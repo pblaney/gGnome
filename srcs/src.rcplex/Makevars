@@ -1,8 +1,15 @@
 OS=$(shell uname)
+ARC=$(shell uname -m)
 ifeq ($(OS),Darwin)
-     PKG_CFLAGS=-m64 -fPIC -fno-strict-aliasing
-     PKG_CPPFLAGS=-I$(CPLEX_DIR)/cplex/include
-     PKG_LIBS=-L$(CPLEX_DIR)/cplex/lib/x86-64_osx/static_pic -lcplex -lm -lpthread
+	ifeq ($(OS),arm64)
+		PKG_CFLAGS=-m64 -fPIC -fno-strict-aliasing
+		PKG_CPPFLAGS=-I$(CPLEX_DIR)/cplex/include
+		PKG_LIBS=-L$(CPLEX_DIR)/cplex/lib/arm64_osx/static_pic -lcplex -lm -lpthread
+	else
+		PKG_CFLAGS=-m64 -fPIC -fno-strict-aliasing
+		PKG_CPPFLAGS=-I$(CPLEX_DIR)/cplex/include
+		PKG_LIBS=-L$(CPLEX_DIR)/cplex/lib/x86-64_osx/static_pic -lcplex -lm -lpthread
+	endif
 else
 	PKG_CFLAGS=-m64 -fPIC -fno-strict-aliasing
 	PKG_CPPFLAGS=-I$(CPLEX_DIR)/cplex/include
